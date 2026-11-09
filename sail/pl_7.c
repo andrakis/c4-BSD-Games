@@ -72,7 +72,7 @@ int done_curses;
 int loaded, fired, changed, repaired;
 int dont_adjust;
 int viewrow, viewcol;
-char movebuf[sizeof SHIP(0)->file->movebuf];
+char movebuf[10];		/* c4: sizeof SHIP(0)->file->movebuf, which c4lc can't size an array by */
 int player;
 struct ship *ms;		/* memorial structure, &cc->ship[player] */
 struct File *mf;		/* ms->file */
@@ -132,6 +132,8 @@ newturn(int n __attribute__((__unused__)))
 		else
 			mf->readyR = R_LOADED;
 	}
+	if (driving && dr_turn() < 0)	/* c4: the driver's turn, here */
+		hasdriver = 0;
 	if (!hasdriver)
 		Write(W_DDEAD, SHIP(0), 0, 0, 0, 0);
 

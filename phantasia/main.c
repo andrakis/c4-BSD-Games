@@ -62,6 +62,7 @@
 #include <curses.h>
 
 int	main(int, char **);
+void	ph_files(void);		/* c4 */
 
 int
 main(argc, argv)
@@ -289,7 +290,8 @@ initialstate()
 	if ((Login = getlogin()) == NULL)
 		Login = getpwuid(getuid())->pw_name;
 
-	/* open some files */
+	/* open some files: c4, made here first if they aren't (c4/phantasia/phfiles.c) */
+	ph_files();
 	if ((Playersfp = fopen(_PATH_PEOPLE, "r+")) == NULL)
 		error(_PATH_PEOPLE);
 	/* NOTREACHED */

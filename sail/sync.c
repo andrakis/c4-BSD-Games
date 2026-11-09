@@ -57,14 +57,8 @@ __RCSID("$NetBSD: sync.c,v 1.23 2004/09/07 13:20:39 jrf Exp $");
 
 static int	sync_update(int, struct ship *, const char *, long, long, long, long);
 
-static const char SF[] = _PATH_SYNC;
-static const char LF[] = _PATH_LOCK;
 static char sync_buf[BUFSIZE];
 static char *sync_bp = sync_buf;
-static char sync_lock[sizeof SF];
-static char sync_file[sizeof LF];
-static long sync_seek;
-static FILE *sync_fp;
 
 void
 fmtship(char *buf, size_t len, const char *fmt, struct ship *ship)
@@ -118,64 +112,28 @@ makemsg(struct ship *from, const char *fmt, ...)
 	Writestr(W_SIGNAL, from, message);
 }
 
+/*
+ * c4: one program plays the game, the player and the driver both (pl_main.c),
+ * so there is no sync file for others to read and nobody else's records to
+ * read from it. Write and Writestr apply each record as they make it, which is
+ * all a record does in the program that made it.
+ */
 int
-sync_exists(int game)
+sync_exists(int game __attribute__((__unused__)))
 {
-	char buf[sizeof sync_file];
-	struct stat s;
-	time_t t;
-
-	sprintf(buf, SF, game);
-	time(&t);
-	setegid(egid);
-	if (stat(buf, &s) < 0) {
-		setegid(gid);
-		return 0;
-	}
-	if (s.st_mtime < t - 60*60*2) {		/* 2 hours */
-		unlink(buf);
-		sprintf(buf, LF, game);
-		unlink(buf);
-		setegid(gid);
-		return 0;
-	} else {
-		setegid(gid);
-		return 1;
-	}
+	return 0;
 }
 
 int
 sync_open(void)
 {
-	struct stat tmp;
-	if (sync_fp != NULL)
-		fclose(sync_fp);
-	sprintf(sync_lock, LF, game);
-	sprintf(sync_file, SF, game);
-	setegid(egid);
-	if (stat(sync_file, &tmp) < 0) {
-		mode_t omask = umask(002);
-		sync_fp = fopen(sync_file, "w+");
-		umask(omask);
-	} else
-		sync_fp = fopen(sync_file, "r+");
-	setegid(gid);
-	if (sync_fp == NULL)
-		return -1;
-	sync_seek = 0;
+	sync_bp = sync_buf;
 	return 0;
 }
 
 void
-sync_close(int remove)
+sync_close(int remove __attribute__((__unused__)))
 {
-	if (sync_fp != 0)
-		fclose(sync_fp);
-	if (remove) {
-		setegid(egid);
-		unlink(sync_file);
-		setegid(gid);
-	}
 }
 
 void
@@ -207,99 +165,8 @@ Writestr(int type, struct ship *ship, const char *a)
 int
 Sync(void)
 {
-	sig_t sighup, sigint;
-	int n;
-	int type, shipnum, isstr;
-	char *astr;
-	long a, b, c, d;
-	char buf[80];
-	char erred = 0;
-
-	sighup = signal(SIGHUP, SIG_IGN);
-	sigint = signal(SIGINT, SIG_IGN);
-	for (n = TIMEOUT; --n >= 0;) {
-#ifdef LOCK_EX
-		if (flock(fileno(sync_fp), LOCK_EX|LOCK_NB) >= 0)
-			break;
-		if (errno != EWOULDBLOCK)
-			return -1;
-#else
-		setegid(egid);
-		if (link(sync_file, sync_lock) >= 0) {
-			setegid(gid);
-			break;
-		}
-		setegid(gid);
-		if (errno != EEXIST)
-			return -1;
-#endif
-		sleep(1);
-	}
-	if (n <= 0)
-		return -1;
-	fseek(sync_fp, sync_seek, SEEK_SET);
-	for (;;) {
-		switch (fscanf(sync_fp, "%d%d%d", &type, &shipnum, &isstr)) {
-		case 3:
-			break;
-		case EOF:
-			goto out;
-		default:
-			goto bad;
-		}
-		if (shipnum < 0 || shipnum >= cc->vessels)
-			goto bad;
-		if (isstr != 0 && isstr != 1)
-			goto bad;
-		if (isstr) {
-			char *p;
-			for (p = buf;;) {
-				switch (*p++ = getc(sync_fp)) {
-				case '\n':
-					p--;
-				case EOF:
-					break;
-				default:
-					if (p >= buf + sizeof buf)
-						p--;
-					continue;
-				}
-				break;
-			}
-			*p = 0;
-			for (p = buf; *p == ' '; p++)
-				;
-			astr = p;
-			a = b = c = d = 0;
-		} else {
-			if (fscanf(sync_fp, "%ld%ld%ld%ld", &a, &b, &c, &d) != 4)
-				goto bad;
-			astr = NULL;
-		}
-		if (sync_update(type, SHIP(shipnum), astr, a, b, c, d) < 0)
-			goto bad;
-	}
-bad:
-	erred++;
-out:
-	if (!erred && sync_bp != sync_buf) {
-		fseek(sync_fp, 0L, SEEK_END);
-		fwrite(sync_buf, sizeof *sync_buf, sync_bp - sync_buf,
-			sync_fp);
-		fflush(sync_fp);
-		sync_bp = sync_buf;
-	}
-	sync_seek = ftell(sync_fp);
-#ifdef LOCK_EX
-	flock(fileno(sync_fp), LOCK_UN);
-#else
-	setegid(egid);
-	unlink(sync_lock);
-	setegid(gid);
-#endif
-	signal(SIGHUP, sighup);
-	signal(SIGINT, sigint);
-	return erred ? -1 : 0;
+	sync_bp = sync_buf;		/* c4: applied already, and nobody to send them to */
+	return 0;
 }
 
 static int

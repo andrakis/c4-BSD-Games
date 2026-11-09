@@ -205,8 +205,8 @@ gethdate(name)
 			break;
 		path = np + 1;
 	}
-	error("Cannot get status of %s.",
-	      (np = strrchr(name, '/')) ? np + 1 : name);
+	/* c4: C4IX has no PATH to look along, and this only dates saved games */
+	hbuf.st_mtime = 0;
 #endif
 }
 
@@ -247,12 +247,9 @@ veryold(fd)
 			return (0);
 
 		/*
-		 * From: Rick Adams <seismo!rick> This will work on
-		 * 4.1cbsd, 4.2bsd and system 3? & 5. It will do nothing
-		 * on V7 or 4.1bsd.
+		 * c4: no kill() to ask whether it runs. One hack runs here at
+		 * a time, so a lock that is there is from a game that ended.
 		 */
-		if (!(kill(lockedpid, 0) == -1 && errno == ESRCH))
-			return (0);
 	}
 	(void) close(fd);
 	for (i = 1; i <= MAXLEVEL; i++) {	/* try to remove all */
@@ -273,28 +270,7 @@ getlock()
 	(void) fflush(stdout);
 
 	/* we ignore QUIT and INT at this point */
-	if (link(HLOCK, LLOCK) == -1) {
-		int             errnosv = errno;
-
-		perror(HLOCK);
-		printf("Cannot link %s to %s\n", LLOCK, HLOCK);
-		switch (errnosv) {
-		case ENOENT:
-			printf("Perhaps there is no (empty) file %s ?\n", HLOCK);
-			break;
-		case EACCES:
-			printf("It seems you don't have write permission here.\n");
-			break;
-		case EEXIST:
-			printf("(Try again or rm %s.)\n", LLOCK);
-			break;
-		default:
-			printf("I don't know what is wrong.");
-		}
-		getret();
-		error("%s", "");
-		/* NOTREACHED */
-	}
+	/* c4: no link() to lock with, and one hack at a time: LLOCK isn't made */
 	regularize(lock);
 	glo(0);
 	if (locknum > 25)
@@ -308,7 +284,6 @@ getlock()
 			if (errno == ENOENT)
 				goto gotlock;	/* no such file */
 			perror(lock);
-			(void) unlink(LLOCK);
 			error("Cannot open %s", lock);
 		}
 		if (veryold(fd))/* if true, this closes fd and unlinks lock */
@@ -316,13 +291,10 @@ getlock()
 		(void) close(fd);
 	} while (i < locknum);
 
-	(void) unlink(LLOCK);
 	error(locknum ? "Too many hacks running now."
 	      : "There is a game in progress under your name.");
 gotlock:
 	fd = creat(lock, FMASK);
-	if (unlink(LLOCK) == -1)
-		error("Cannot unlink %s.", LLOCK);
 	if (fd == -1) {
 		error("cannot creat lock file.");
 	} else {

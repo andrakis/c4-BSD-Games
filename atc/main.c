@@ -214,7 +214,7 @@ read_file(s)
 	int		retval;
 
 	file = s;
-	yyin = fopen(s, "r");
+	yyin = fopen(atc_path(s), "r");
 	if (yyin == NULL) {
 		warn("fopen %s", s);
 		return (-1);
@@ -238,7 +238,7 @@ default_game()
 	strcpy(games, _PATH_GAMES);
 	strcat(games, GAMES);
 
-	if ((fp = fopen(games, "r")) == NULL) {
+	if ((fp = fopen(atc_path(games), "r")) == NULL) {
 		warn("fopen %s", games);
 		return (NULL);
 	}
@@ -265,7 +265,7 @@ okay_game(s)
 	strcpy(games, _PATH_GAMES);
 	strcat(games, GAMES);
 
-	if ((fp = fopen(games, "r")) == NULL) {
+	if ((fp = fopen(atc_path(games), "r")) == NULL) {
 		warn("fopen %s", games);
 		return (NULL);
 	}
@@ -299,7 +299,7 @@ list_games()
 	strcpy(games, _PATH_GAMES);
 	strcat(games, GAMES);
 
-	if ((fp = fopen(games, "r")) == NULL) {
+	if ((fp = fopen(atc_path(games), "r")) == NULL) {
 		warn("fopen %s", games);
 		return (-1);
 	}

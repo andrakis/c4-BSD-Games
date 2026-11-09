@@ -103,7 +103,7 @@ struct fakecorridor {
 struct egd {
 	int             fcbeg, fcend;	/* fcend: first unused pos */
 	xchar           gdx, gdy;	/* goal of guard's walk */
-	unsigned        gddone:1;
+	uchar        gddone;
 	struct fakecorridor fakecorr[FCSIZ];
 };
 

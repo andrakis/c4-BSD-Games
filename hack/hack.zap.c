@@ -381,15 +381,16 @@ miss(str, mtmp)
  */
 /* check !u.uswallow before calling bhit() */
 
+/* c4: c4lc takes no K&R function pointer. sym is a char, as it was */
 struct monst   *
-bhit(ddx, ddy, range, sym, fhitm, fhito, obj)
-	int             ddx, ddy, range;	/* direction and range */
-	char            sym;	/* symbol displayed on path */
-	/* fns called when mon/obj hit */
-	void          (*fhitm)(struct monst *, struct obj *);
-	int	      (*fhito)(struct obj *, struct obj *);
-	struct obj     *obj;	/* 2nd arg to fhitm/fhito */
+bhit(int ddx, int ddy, int range,	/* direction and range */
+    int sym_,				/* symbol displayed on path */
+    /* fns called when mon/obj hit */
+    void (*fhitm)(struct monst *, struct obj *),
+    int (*fhito)(struct obj *, struct obj *),
+    struct obj *obj)			/* 2nd arg to fhitm/fhito */
 {
+	char            sym = sym_;
 	struct monst   *mtmp;
 	struct obj     *otmp;
 	int             typ;

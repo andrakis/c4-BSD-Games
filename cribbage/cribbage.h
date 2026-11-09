@@ -77,7 +77,7 @@ int	 eq(CARD, CARD);
 int	 fifteens(const CARD [], int);
 void	 game(void);
 void	 gamescore(void);
-char	*getline(void);
+char	*crib_getline(void);
 int	 getuchar(void);
 int	 incard(CARD *);
 int	 infrom(const CARD [], int, const char *);

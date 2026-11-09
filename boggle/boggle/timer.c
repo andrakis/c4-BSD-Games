@@ -52,6 +52,7 @@ __RCSID("$NetBSD: timer.c,v 1.9 2004/01/27 20:30:29 jsm Exp $");
 #include <unistd.h>
 
 #include "bog.h"
+#include "c4input.h"
 #include "extern.h"
 
 static int waitch(int);
@@ -113,9 +114,5 @@ void
 delay(tenths)
 	int tenths;
 {
-	struct timespec duration;
-
-	duration.tv_nsec = (tenths % 10 ) * 100000000L;
-	duration.tv_sec = (long) (tenths / 10);
-	nanosleep(&duration, NULL);
+	usleep(tenths * 100000);
 }

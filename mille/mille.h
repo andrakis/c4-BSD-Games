@@ -268,7 +268,7 @@ void	shuffle(void);
 void	sort(CARD *);
 void	undoex(int);
 #if defined(__linux__) && !defined(__GLIBC__)
-bool	varpush(int, ssize_t (int, const struct iovec *, size_t));
+bool	varpush(int, ssize_t (*func)(int, const struct iovec *, size_t));
 #else
-bool	varpush(int, ssize_t (int, const struct iovec *, int));
+bool	varpush(int, ssize_t (*func)(int, const struct iovec *, int));
 #endif

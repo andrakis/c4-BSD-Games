@@ -105,12 +105,6 @@ main(argc, argv)
 	char           *dir;
 #endif
 
-	/* Check for dirty tricks with closed fds 0, 1, 2 */
-	fd = open("/dev/null", O_RDONLY);
-	if (fd < 3)
-		exit(1);
-	close(fd);
-
 	hname = argv[0];
 	hackpid = getpid();
 

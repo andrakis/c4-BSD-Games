@@ -89,7 +89,7 @@ extern int done_curses;
 extern int loaded, fired, changed, repaired;
 extern int dont_adjust;
 extern int viewrow, viewcol;
-extern char movebuf[sizeof SHIP(0)->file->movebuf];
+extern char movebuf[];
 extern char version[];
 extern int player;
 extern struct ship *ms;		/* memorial structure, &cc->ship[player] */

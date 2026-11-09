@@ -563,3 +563,4 @@ int game;
 int alive;
 int people;
 int hasdriver;
+int driving;		/* c4: dr_main.c */

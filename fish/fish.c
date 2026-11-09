@@ -460,28 +460,7 @@ instructions()
 	if (input != 'y')
 		return;
 
-	switch (pid = fork()) {
-	case 0: /* child */
-		if (!isatty(1))
-			pager = "cat";
-		else {
-			if (!(pager = getenv("PAGER")) || (*pager == 0))
-				pager = _PATH_MORE;
-		}
-		if ((fd = open(_PATH_INSTR, O_RDONLY)) == -1)
-			err(1, "open %s", _PATH_INSTR);
-		if (dup2(fd, 0) == -1)
-			err(1, "dup2");
-		(void)execl("/bin/sh", "sh", "-c", pager, (char *) NULL);
-		err(1, "exec sh -c %s", pager);
-		/*NOTREACHED*/
-	case -1:
-		err(1, "fork");
-		/*NOTREACHED*/
-	default:
-		(void)waitpid(pid, &status, 0);
-		break;
-	}
+	bsdc_page(_PATH_INSTR);
 	(void)printf("Hit return to continue...\n");
 	while ((input = getchar()) != EOF && input != '\n');
 }

@@ -211,7 +211,16 @@ void
 mkgold(long num, int x, int y)
 {
 	struct gold    *gold;
-	long            amount = (num ? num : 1 + (rnd(dlevel + 2) * rnd(30)));
+	long            amount;
+	long            a;
+
+	/* c4: one rnd, then the other, in every build: see hack.mklev.c */
+	if (num)
+		amount = num;
+	else {
+		a = rnd(dlevel + 2);
+		amount = 1 + a * rnd(30);
+	}
 
 	if ((gold = g_at(x, y)) != NULL)
 		gold->amount += amount;

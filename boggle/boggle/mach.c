@@ -168,7 +168,7 @@ prwidth(base, indx)
  * - doesn't accept words longer than MAXWORDLEN or containing caps
  */
 char *
-getline(q)
+bog_getline(q)
 	char *q;
 {
 	int ch, done;

@@ -128,7 +128,7 @@ get_file(file)
 	size_t len;
 	char *lp;
 
-	if ((fp = fopen(file, "r")) == NULL)
+	if ((fp = fopen(bsdc_path(file), "r")) == NULL)
 		err(1, "%s", file);
 
 	/*
@@ -167,14 +167,7 @@ show_index()
 	FILE *pf;
 	const char *pager;
 
-	if (!isatty(1))
-		pager = "cat";
-	else {
-		if (!(pager = getenv("PAGER")) || (*pager == 0))
-			pager = _PATH_PAGER;
-	}
-	if ((pf = popen(pager, "w")) == NULL)
-		err(1, "%s", pager);
+	pf = stdout;
 	(void)fprintf(pf, "Subjects:\n\n");
 	for (qp = qlist.q_next; qp; qp = qp->q_next) {
 		for (s = next_cat(qp->q_text); s; s = next_cat(s)) {
@@ -189,7 +182,6 @@ show_index()
 "For example, \"quiz victim killer\" prints a victim's name and you reply",
 "with the killer, and \"quiz killer victim\" works the other way around.",
 "Type an empty line to get the correct answer.");
-	(void)pclose(pf);
 }
 
 void

@@ -106,6 +106,7 @@ main(int argc, char **argv)
 	(void)signal(SIGTERM, onsig);
 
 	curs_set(0);
+	nodelay(stdscr, TRUE);
 	for (j = 4; j >= 0; --j) {
 		xpos[j] = random() % cols + 2;
 		ypos[j] = random() % lines + 2;
@@ -144,10 +145,12 @@ main(int argc, char **argv)
 		xpos[j] = x;
 		ypos[j] = y;
 		refresh();
+		if (getch() != ERR)
+			onsig(0);
 		if (delay)
 			usleep(delay);
 		else
-			tcdrain(STDOUT_FILENO);
+			napms(60);
 	}
 }
 

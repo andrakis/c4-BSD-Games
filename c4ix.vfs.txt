@@ -1,0 +1,28 @@
+# The BSD games (games/bsdgames), and what they read, which is lazy (hostdir,
+# vfsload.c)
+bsdgames/:
+	fish.c4r: c4ix-bsdgames-fish.c4r
+	wump.c4r: c4ix-bsdgames-wump.c4r
+	pig.c4r: c4ix-bsdgames-pig.c4r
+	quiz.c4r: c4ix-bsdgames-quiz.c4r
+	adventure.c4r: c4ix-bsdgames-adventure.c4r
+	hangman.c4r: c4ix-bsdgames-hangman.c4r
+	rain.c4r: c4ix-bsdgames-rain.c4r
+	worm.c4r: c4ix-bsdgames-worm.c4r
+	backgammon.c4r: c4ix-bsdgames-backgammon.c4r
+	gomoku.c4r: c4ix-bsdgames-gomoku.c4r
+	snake.c4r: c4ix-bsdgames-snake.c4r
+	canfield.c4r: c4ix-bsdgames-canfield.c4r
+	robots.c4r: c4ix-bsdgames-robots.c4r
+	tetris.c4r: c4ix-bsdgames-tetris.c4r
+	cribbage.c4r: c4ix-bsdgames-cribbage.c4r
+	mille.c4r: c4ix-bsdgames-mille.c4r
+	boggle.c4r: c4ix-bsdgames-boggle.c4r
+	trek.c4r: c4ix-bsdgames-trek.c4r
+	monop.c4r: c4ix-bsdgames-monop.c4r
+	battlestar.c4r: c4ix-bsdgames-battlestar.c4r
+	atc.c4r: c4ix-bsdgames-atc.c4r
+	sail.c4r: c4ix-bsdgames-sail.c4r
+	phantasia.c4r: c4ix-bsdgames-phantasia.c4r
+	hack.c4r: c4ix-bsdgames-hack.c4r
+	data/: hostdir(bsdgames/)

@@ -183,19 +183,12 @@ reprint:
 	if (Sync() < 0)
 		leave(LEAVE_SYNC);
 
-	signal(SIGCHLD, child);
-	if (!hasdriver)
-		switch (fork()) {
-		case 0:
-			longjmp(restart, MODE_DRIVER);
-			/*NOTREACHED*/
-		case -1:
-			perror("fork");
-			leave(LEAVE_FORK);
-			break;
-		default:
-			hasdriver++;
-		}
+	if (!hasdriver) {
+		/* c4: this program drives the game too, each turn (dr_main.c) */
+		dr_init();
+		hasdriver++;
+		driving = 1;
+	}
 
 	printf("Your ship is the %s, a %d gun %s (%s crew).\n",
 		ms->shipname, mc->guns, classname[mc->class],

@@ -50,13 +50,7 @@ __RCSID("$NetBSD: varpush.c,v 1.8 2004/01/27 20:30:30 jsm Exp $");
  * channel file.  func() is either read or write.
  */
 bool
-varpush(file, func)
-	int	file;
-#if defined(__linux__) && !defined(__GLIBC__)
-	ssize_t	(*func)(int, const struct iovec *, size_t); 
-#else
-	ssize_t	(*func)(int, const struct iovec *, int); 
-#endif
+varpush(int file, ssize_t (*func)(int, const struct iovec *, int))
 {
 	int		temp;
 	const struct iovec vec[] = {

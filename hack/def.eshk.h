@@ -67,8 +67,8 @@
 #define	BILLSZ	200
 struct bill_x {
 	unsigned bo_id;
-	unsigned useup:1;
-	unsigned bquan:7;
+	uchar useup;
+	uchar bquan;
 	unsigned price;		/* price per unit */
 };
 

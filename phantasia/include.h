@@ -4,6 +4,7 @@
  * include.h - includes all important files for Phantasia
  */
 
+#include <sys/cdefs.h>	/* c4: c4/c4bsd.h */
 #include <ctype.h>
 #include <errno.h>
 #include <math.h>

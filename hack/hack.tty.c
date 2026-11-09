@@ -133,7 +133,7 @@ gettty()
 	if (tcgetattr(0, &inittyb) < 0)
 		perror("Hack (gettty)");
 	curttyb = inittyb;
-	ospeed = cfgetospeed(&inittyb);
+	/* c4: no termcap, so no ospeed */
 	erase_char = inittyb.c_cc[VERASE];
 	kill_char = inittyb.c_cc[VKILL];
 	getioctls();

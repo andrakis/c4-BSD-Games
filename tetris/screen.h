@@ -48,7 +48,7 @@ extern char *SOstr;		/* begin standout mode */
 int	put(int);		/* just calls putchar; for tputs */
 void	scr_clear(void);
 void	scr_end(void);
-void	scr_init(void);
+void	tscr_init(void);
 void	scr_msg(char *, int);
-void	scr_set(void);
+void	tscr_set(void);
 void	scr_update(void);

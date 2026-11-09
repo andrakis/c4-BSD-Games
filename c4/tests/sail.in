@@ -1,0 +1,13 @@
+0
+0
+Hornblower
+round
+grape
+~# sail: Ranger vs. Drake as the Ranger, Captain Hornblower, loaded with round and
+~# grape (on stdin, before curses: no comments there). A turn is seven seconds,
+~# 140 polls, and the driver moves the Drake in each: a few moves, a look at her,
+~# a broadside, and she makes the Ranger strike.
+`140m2
+`140mr1
+`140i`140m2
+`140f`10`140`140Q`200

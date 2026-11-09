@@ -86,7 +86,9 @@ do_move()
 	bool was_jail;
 
 	new_play = was_jail = FALSE;
-	printf("roll is %d, %d\n", r1=roll(1, 6), r2=roll(1, 6));
+	r1 = roll(1, 6);
+	r2 = roll(1, 6);
+	printf("roll is %d, %d\n", r1, r2);
 	if (cur_p->loc == JAIL) {
 		was_jail++;
 		if (!move_jail(r1, r2)) {
@@ -176,45 +178,7 @@ show_move()
 void
 save() 
 {
-	char *sp;
-	int outf, num;
-	time_t t;
-	struct stat sb;
-	char *start, *end;
-
-	printf("Which file do you wish to save it in? ");
-	sp = buf;
-	while ((*sp++=getchar()) != '\n')
-		continue;
-	*--sp = '\0';
-
-	/*
-	 * check for existing files, and confirm overwrite if needed
-	 */
-
-	if (stat(buf, &sb) > -1
-	    && getyn("File exists.  Do you wish to overwrite? ") > 0)
-		return;
-
-	if ((outf=creat(buf, 0644)) < 0) {
-		perror(buf);
-		return;
-	}
-	printf("\"%s\" ", buf);
-	time(&t);			/* get current time		*/
-	strcpy(buf, ctime(&t));
-	for (sp = buf; *sp != '\n'; sp++)
-		continue;
-	*sp = '\0';
-	start = heapstart;
-	end = sbrk(0);
-	while (start < end) {		/* write out entire data space */
-		num = start + 16 * 1024 > end ? end - start : 16 * 1024;
-		write(outf, start, num);
-		start += num;
-	}
-	close(outf);
-	printf("[%s]\n", buf);
+	printf("Saving a game is not possible here.\n");
 }
 
 /*
@@ -223,13 +187,7 @@ save()
 void
 restore() 
 {
-	char *sp;
-
-	printf("Which file do you wish to restore from? ");
-	for (sp = buf; (*sp=getchar()) != '\n'; sp++)
-		continue;
-	*sp = '\0';
-	rest_f(buf);
+	printf("Restoring a game is not possible here.\n");
 }
 
 /*
@@ -240,33 +198,6 @@ int
 rest_f(file)
 	const char *file; 
 {
-	char *sp;
-	int inf, num;
-	char buf[80];
-	char *start, *end;
-	STAT sbuf;
-
-	if ((inf=open(file, O_RDONLY)) < 0) {
-		perror(file);
-		return FALSE;
-	}
-	printf("\"%s\" ", file);
-	if (fstat(inf, &sbuf) < 0) {		/* get file stats	*/
-		perror(file);
-		exit(1);
-	}
-	start = heapstart;
-	brk(end = start + sbuf.st_size);
-	while (start < end) {		/* write out entire data space */
-		num = start + 16 * 1024 > end ? end - start : 16 * 1024;
-		read(inf, start, num);
-		start += num;
-	}
-	close(inf);
-	strcpy(buf, ctime(&sbuf.st_mtime));
-	for (sp = buf; *sp != '\n'; sp++)
-		continue;
-	*sp = '\0';
-	printf("[%s]\n", buf);
-	return TRUE;
+	printf("Restoring a game is not possible here.\n");
+	return FALSE;
 }

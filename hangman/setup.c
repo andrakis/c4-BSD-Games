@@ -68,7 +68,7 @@ setup()
 	}
 
 	srand(time(NULL) + getpid());
-	if ((Dict = fopen(Dict_name, "r")) == NULL) {
+	if ((Dict = fopen(bsdc_path(Dict_name), "r")) == NULL) {
 		endwin();
 		err(1, "fopen %s", Dict_name);
 	}

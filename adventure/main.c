@@ -474,7 +474,7 @@ l4090:
 			default:
 				bug(102);
 			}
-		l9020: case 2:	/* drop = 9020 */
+		case 2: l9020:	/* drop = 9020 */
 			switch (trdrop()) {
 			case 2011:
 				goto l2011;
@@ -497,7 +497,7 @@ l4090:
 			default:
 				bug(107);
 			}
-		l9040: case 4:
+		case 4: l9040: ;
 		case 6:	/* open, close */
 			switch (tropen()) {
 			case 2011:
@@ -547,7 +547,7 @@ l4090:
 		case 30:
 		case 31:	/* suspend, hours */
 			goto l2011;
-		l9120: case 12:/* kill */
+		case 12: l9120:/* kill */
 			switch (trkill()) {
 			case 8000:
 				goto l8000;
@@ -562,7 +562,7 @@ l4090:
 			default:
 				bug(112);
 			}
-		l9130: case 13:/* pour */
+		case 13: l9130:/* pour */
 			if (obj == bottle || obj == 0)
 				obj = liq();
 			if (obj == 0)
@@ -600,7 +600,7 @@ l4090:
 			    || obj == bear)
 				spk = 71;
 			goto l2011;
-		l9150: case 15:/* 9150 - drink */
+		case 15: l9150:/* 9150 - drink */
 			if (obj == 0 && liqloc(loc) != water && (liq() != water
 				|| !here(bottle)))
 				goto l8000;
@@ -644,14 +644,14 @@ l4090:
 			if (toting(obj))
 				spk = 24;
 			goto l2011;
-		l9210: case 21:/* feed */
+		case 21: l9210:/* feed */
 			switch (trfeed()) {
 			case 2011:
 				goto l2011;
 			default:
 				bug(114);
 			}
-		l9220: case 22:/* fill */
+		case 22: l9220:/* fill */
 			switch (trfill()) {
 			case 2011:
 				goto l2011;
@@ -662,7 +662,7 @@ l4090:
 			default:
 				bug(115);
 			}
-		l9230: case 23:/* blast */
+		case 23: l9230:/* blast */
 			if (prop[rod2] < 0 || !closed)
 				goto l2011;
 			bonus = 133;
@@ -672,7 +672,7 @@ l4090:
 				bonus = 135;
 			rspeak(bonus);
 			done(2);
-		l9270: case 27:/* read */
+		case 27: l9270:/* read */
 			if (dark())
 				goto l5190;
 			if (obj == magzin)

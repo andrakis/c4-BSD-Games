@@ -149,25 +149,38 @@ makelevel()
 		 * monster was on the stairs. Conclusion: we have to check
 		 * for monsters on the stairs anyway.
 		 */
-		if (!rn2(3))
-			(void)
-				makemon((struct permonst *) 0, somex(), somey());
+		/*
+		 * c4: x, then y, in every build: the order of a call's
+		 * arguments is open, and gcc's and c4lc's differ
+		 */
+		if (!rn2(3)) {
+			x = somex();
+			y = somey();
+			(void) makemon((struct permonst *) 0, x, y);
+		}
 
 		/* put traps and mimics inside */
 		goldseen = FALSE;
 		while (!rn2(8 - (dlevel / 6)))
 			mktrap(0, 0, croom);
-		if (!goldseen && !rn2(3))
-			mkgold(0L, somex(), somey());
+		if (!goldseen && !rn2(3)) {
+			x = somex();
+			y = somey();
+			mkgold(0L, x, y);
+		}
 		if (!rn2(3)) {
-			(void) mkobj_at(0, somex(), somey());
+			x = somex();
+			y = somey();
+			(void) mkobj_at(0, x, y);
 			tryct = 0;
 			while (!rn2(5)) {
 				if (++tryct > 100) {
 					printf("tryct overflow4\n");
 					break;
 				}
-				(void) mkobj_at(0, somex(), somey());
+				x = somex();
+				y = somey();
+				(void) mkobj_at(0, x, y);
 			}
 		}
 	}

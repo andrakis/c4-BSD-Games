@@ -45,27 +45,25 @@ __RCSID("$NetBSD: dr_main.c,v 1.12 2003/08/07 09:37:42 agc Exp $");
 #include "extern.h"
 #include "driver.h"
 
+/*
+ * c4: the driver is not a process of its own, which needs fork. pl_main.c calls
+ * dr_init where it would have forked one, and newturn calls dr_turn every turn,
+ * as the driver's loop did after its sleep(7). The driver's own records are
+ * applied as it writes them (sync.c), in the same memory as the player's.
+ */
 int
-dr_main(void)
+dr_init(void)
 {
-	int n;
 	struct ship *sp;
 	int nat[NNATION];
-	int value = 0;
+	int n;
 
-	signal(SIGINT, SIG_IGN);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTSTP, SIG_IGN);
 	if (game < 0 || game >= NSCENE) {
 		fprintf(stderr, "DRIVER: Bad game number %d\n", game);
 		exit(1);
 	}
 	cc = &scene[game];
 	ls = SHIP(cc->vessels);
-	if (sync_open() < 0) {
-		perror("driver: syncfile");
-		exit(1);
-	}
 	for (n = 0; n < NNATION; n++)
 		nat[n] = 0;
 	foreachship(sp) {
@@ -86,30 +84,45 @@ dr_main(void)
 	}
 	windspeed = cc->windspeed;
 	winddir = cc->winddir;
+	return 0;
+}
+
+/* One turn of the driver's: 0, or -1 when the game is over */
+int
+dr_turn(void)
+{
+	if (Sync() < 0)
+		return -1;
+	if (next() < 0)
+		return -1;
+	unfoul();
+	checkup();
+	prizecheck();
+	moveall();
+	thinkofgrapples();
+	boardcomp();
+	compcombat();
+	resolve();
+	reload();
+	checksails();
+	if (Sync() < 0)
+		return -1;
+	return 0;
+}
+
+int
+dr_main(void)
+{
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTSTP, SIG_IGN);
+	dr_init();
 	people = 0;
 	for (;;) {
 		sleep(7);
-		if (Sync() < 0) {
-			value = 1;
+		if (dr_turn() < 0)
 			break;
-		}
-		if (next() < 0)
-			break;
-		unfoul();
-		checkup();
-		prizecheck();
-		moveall();
-		thinkofgrapples();
-		boardcomp();
-		compcombat();
-		resolve();
-		reload();
-		checksails();
-		if (Sync() < 0) {
-			value = 1;
-			break;
-		}
 	}
 	sync_close(1);
-	return value;
+	return 0;
 }

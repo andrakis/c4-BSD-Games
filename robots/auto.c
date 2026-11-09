@@ -57,6 +57,7 @@
  *			FI
  *		FI
  */
+#include <sys/cdefs.h>
 #include "robots.h"
 
 #define ABS(a) (((a)>0)?(a):-(a))

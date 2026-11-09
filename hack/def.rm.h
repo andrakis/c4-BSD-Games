@@ -106,10 +106,10 @@
  */
 struct rm {
 	char scrsym;
-	unsigned typ:5;
-	unsigned new:1;
-	unsigned seen:1;
-	unsigned lit:1;
+	uchar typ;
+	uchar new;
+	uchar seen;
+	uchar lit;
 };
 extern struct rm levl[COLNO][ROWNO];
 #endif /* _DEF_RM_H_ */

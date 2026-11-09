@@ -1,0 +1,10 @@
+// phantasia's files, in the current directory (c4/c4bsd.h)
+#define _PATH_GAMEPROG "phantasia"
+#define _PATH_GOLD "ph_gold"
+#define _PATH_LASTDEAD "ph_lastd"
+#define _PATH_MESS "ph_mess"
+#define _PATH_MONST "ph_monst"
+#define _PATH_MOTD "ph_motd"
+#define _PATH_PEOPLE "ph_chars"
+#define _PATH_SCORE "ph_score"
+#define _PATH_VOID "ph_void"

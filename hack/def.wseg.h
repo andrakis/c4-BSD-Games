@@ -68,7 +68,7 @@
 struct wseg {
 	struct wseg *nseg;
 	xchar wx,wy;
-	unsigned wdispl:1;
+	uchar wdispl;
 };
 
 #define newseg()	(struct wseg *) alloc(sizeof(struct wseg))

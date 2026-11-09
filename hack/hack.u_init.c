@@ -79,7 +79,7 @@ __RCSID("$NetBSD: hack.u_init.c,v 1.8 2004/11/05 21:30:32 dsl Exp $");
 
 struct you      zerou;
 char            pl_character[PL_CSIZ];
-const char *(roles[]) = {	/* must all have distinct first letter */
+const char *roles[] = {	/* c4: c4lc takes no *(roles[]) */	/* must all have distinct first letter */
 	/* roles[4] may be changed to -woman */
 	"Tourist", "Speleologist", "Fighter", "Knight",
 	"Cave-man", "Wizard"

@@ -69,7 +69,7 @@ init_decks()
 {
 	int32_t nc;
 
-	if ((deckf=fopen(cardfile, "r")) == NULL) {
+	if ((deckf=fopen(bsdc_path(cardfile), "r")) == NULL) {
 file_err:
 		perror(cardfile);
 		exit(1);

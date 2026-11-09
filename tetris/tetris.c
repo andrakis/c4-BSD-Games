@@ -140,10 +140,6 @@ main(argc, argv)
 	egid = getegid();
 	setegid(gid);
 
-	fd = open("/dev/null", O_RDONLY);
-	if (fd < 3)
-		exit(1);
-	close(fd);
 
 	keys = "jkl pq";
 
@@ -199,11 +195,11 @@ main(argc, argv)
 		key_write[4], key_write[5]);
 
 	(void)signal(SIGINT, onintr);
-	scr_init();
+	tscr_init();
 	setup_board();
 
 	srandom(getpid());
-	scr_set();
+	tscr_set();
 
 	pos = A_FIRST*B_COLS + (B_COLS/2)-1;
 	nextshape = randshape();

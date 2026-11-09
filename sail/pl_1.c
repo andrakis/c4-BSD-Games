@@ -129,14 +129,5 @@ choke(int n __attribute__((__unused__)))
 void
 child(int n __attribute__((__unused__)))
 {
-	int status;
-	int pid;
-
-	signal(SIGCHLD, SIG_IGN);
-	do {
-		pid = wait3(&status, WNOHANG, (struct rusage *)0);
-		if (pid < 0 || (pid > 0 && !WIFSTOPPED(status)))
-			hasdriver = 0;
-	} while (pid > 0);
-	signal(SIGCHLD, child);
+	/* c4: there is no driver process to wait for (dr_main.c) */
 }

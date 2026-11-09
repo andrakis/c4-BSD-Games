@@ -764,26 +764,7 @@ puff of greasy black smoke! (poof)\n");
 		return;
 	}
 
-	if (!isatty(STDOUT_FILENO))
-		pager = "cat";
-	else {
-		if (!(pager = getenv("PAGER")) || (*pager == 0))
-			pager = _PATH_PAGER;
-	}
-	switch (pid = fork()) {
-	case 0: /* child */
-		if ((fd = open(_PATH_WUMPINFO, O_RDONLY)) == -1)
-			err(1, "open %s", _PATH_WUMPINFO);
-		if (dup2(fd, STDIN_FILENO) == -1)
-			err(1, "dup2");
-		(void)execl("/bin/sh", "sh", "-c", pager, (char *) NULL);
-		err(1, "exec sh -c %s", pager);
-	case -1:
-		err(1, "fork");
-	default:
-		(void)waitpid(pid, &status, 0);
-		break;
-	}
+	bsdc_page(_PATH_WUMPINFO);
 }
 
 void

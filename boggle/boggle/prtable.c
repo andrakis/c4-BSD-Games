@@ -63,11 +63,8 @@ static int	get_maxlen(const char *const [], int, int (*)(const char *const *, in
  * an index
  */
 void
-prtable(base, num, d_cols, width, prentry, length)
-	const char *const base[];
-	int num, d_cols, width;
-	void (*prentry)(const char *const [], int);
-	int (*length)(const char *const [], int);
+prtable(const char *const base[], int num, int d_cols, int width,
+	void (*prentry)(const char *const [], int), int (*length)(const char *const [], int))
 {
         int c, j;
         int a, b, cols, loc, maxlen, nrows, z;
@@ -114,10 +111,7 @@ prtable(base, num, d_cols, width, prentry, length)
 }
 
 static int
-get_maxlen(base, num, length)
-	const char *const base[];
-	int num;
-	int (*length)(const char *const *, int);
+get_maxlen(const char *const base[], int num, int (*length)(const char *const [], int))
 {
 	int i, len, max;
 

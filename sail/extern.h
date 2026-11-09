@@ -288,6 +288,7 @@ extern int game;
 extern int alive;
 extern int people;
 extern int hasdriver;
+extern int driving;		/* c4: the driver is in this program */
 
 /* assorted.c */
 void table (struct ship *, struct ship *, int, int, int, int);
@@ -324,6 +325,8 @@ int mensent (struct ship *, struct ship *, int[3], struct ship **, int *,
 
 /* dr_main.c */
 int dr_main (void);
+int dr_init (void);
+int dr_turn (void);
 
 /* game.c */
 int maxturns (struct ship *, char *);

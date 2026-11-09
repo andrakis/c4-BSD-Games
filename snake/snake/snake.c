@@ -151,13 +151,11 @@ main(argc, argv)
 	rawscores = open(_PATH_RAWSCORES, O_RDWR|O_CREAT, 0664);
 	if (rawscores < 0) {
 		warn("open %s", _PATH_RAWSCORES);
-		sleep(2);
 	} else if (rawscores < 3)
 		exit(1);
 	logfile = fopen(_PATH_LOGFILE, "a");
 	if (logfile == NULL) {
 		warn("fopen %s", _PATH_LOGFILE);
-		sleep(2);
 	}
 	setregid(getgid(), getgid());
 

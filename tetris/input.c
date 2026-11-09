@@ -38,6 +38,7 @@
  * Tetris input.
  */
 
+#include <sys/cdefs.h>
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/poll.h>
@@ -46,6 +47,8 @@
 #include <unistd.h>
 
 #include "input.h"
+#include <curses.h>
+#include "c4input.h"
 #include "tetris.h"
 
 /* return true iff the given timeval is positive */

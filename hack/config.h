@@ -90,11 +90,13 @@
 
 #define WIZARD  "bruno"	/* the person allowed to use the -D option */
 #define RECORD	"record"/* the file containing the list of topscorers */
-#define	NEWS	"news"	/* the file containing the latest hack news */
-#define	HELP	"help"	/* the file containing a description of the commands */
-#define	SHELP	"hh"	/* abbreviated form of the same */
-#define	RUMORFILE	"rumors"	/* a file with fortune cookies */
-#define	DATAFILE	"data"	/* a file giving the meaning of symbols used */
+/* #define	NEWS	"news" */	/* c4: there is no news */
+/* c4: hack's own files are with the games' data (c4/c4bsd.h), and what it
+ * writes is in the current directory */
+#define	HELP	bsdc_path("hackhelp")	/* the file containing a description of the commands */
+#define	SHELP	bsdc_path("hackhh")	/* abbreviated form of the same */
+#define	RUMORFILE	bsdc_path("hackrumo")	/* a file with fortune cookies */
+#define	DATAFILE	bsdc_path("hackdata")	/* a file giving the meaning of symbols used */
 #define	FMASK	0660	/* file creation mask */
 #define	HLOCK	"perm"	/* an empty file used for locking purposes */
 #define LLOCK	"safelock"	/* link to previous */
@@ -120,10 +122,10 @@
 #define	MAILCKFREQ	100	
 
 
-#define SHELL		/* do not delete the '!' command */
+/* #define SHELL */		/* c4: no fork, so no '!' command */
 
 #ifdef BSD
-#define	SUSPEND		/* let ^Z suspend the game */
+/* #define	SUSPEND */		/* c4: nothing to suspend it to */
 #endif /* BSD */
 #endif /* UNIX */
 
@@ -198,8 +200,10 @@ typedef	xchar	boolean;		/* 0 or 1 */
  *	#define Bitfield(x,n)	uchar x
  * since the bitfields used never have more than 7 bits. (Most have 1 bit.)
  */
-#define	Bitfield(x,n)	unsigned x:n
+#define	Bitfield(x,n)	uchar x		/* c4: c4lc has no bitfields */
 
 #define	SIZE(x)	(int)(sizeof(x) / sizeof(x[0]))
+
+#include "c4hack.h"	/* c4: its terminal is curses */
 
 #endif /* CONFIG */

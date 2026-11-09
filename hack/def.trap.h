@@ -66,9 +66,9 @@
 struct trap {
 	struct trap *ntrap;
 	xchar tx,ty;
-	unsigned ttyp:5;
-	unsigned tseen:1;
-	unsigned once:1;
+	uchar ttyp;
+	uchar tseen;
+	uchar once;
 };
 
 extern struct trap *ftrap;

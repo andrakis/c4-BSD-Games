@@ -147,7 +147,7 @@ put(c)
  * Set up from termcap.
  */
 void
-scr_init()
+tscr_init()
 {
 	static int bsflag, xsflag, sgnum;
 #ifdef unneeded
@@ -238,7 +238,7 @@ scr_stop(sig)
 	sigemptyset(&sigset);
 	sigaddset(&sigset, sig);
 	(void) sigprocmask(SIG_UNBLOCK, &sigset, (sigset_t *)0);
-	scr_set();
+	tscr_set();
 	scr_msg(key_msg, 1);
 }
 
@@ -246,7 +246,7 @@ scr_stop(sig)
  * Set up screen mode.
  */
 void
-scr_set()
+tscr_set()
 {
 	struct winsize ws;
 	struct termios newtt;

@@ -323,23 +323,10 @@ topten()
 	int             occ_cnt = PERSMAX;
 	struct toptenentry *t0, *t1, *tprev;
 	const char     *recfile = RECORD;
-	const char     *reclock = "record_lock";
-	int             sleepct = 300;
 	FILE           *rfile;
 	int 		flg = 0;
 #define	HUP	if(!done_hup)
-	while (link(recfile, reclock) == -1) {
-		HUP             perror(reclock);
-		if (!sleepct--) {
-			HUP             puts("I give up. Sorry.");
-			HUP             puts("Perhaps there is an old record_lock around?");
-			return;
-		}
-		HUP             printf("Waiting for access to record file. (%d)\n",
-				                       sleepct);
-		HUP(void) fflush(stdout);
-		sleep(1);
-	}
+	/* c4: no link() to lock the record with, and one hack at a time */
 	if (!(rfile = fopen(recfile, "r"))) {
 		HUP             puts("Cannot open record file!");
 		goto unlock;
@@ -477,8 +464,7 @@ topten()
 		if (!done_stopprint)
 			(void) outentry(0, t0, 1);
 	(void) fclose(rfile);
-unlock:
-	(void) unlink(reclock);
+unlock:	;
 }
 
 void

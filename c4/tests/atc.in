@@ -1,0 +1,10 @@
+~# atc: the default game. The clock runs on: each ` is 50 ms. Planes get commands,
+~# one is sent off course, and the game goes until one is lost or the script ends.
+`120atl90
+`120ata90
+`120btt
+`120tt
+`200ctl
+`200b5
+`400dtr
+`800~.

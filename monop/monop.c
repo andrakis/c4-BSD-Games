@@ -68,7 +68,6 @@ main(ac, av)
 	setregid(getgid(), getgid());
 
 	srand(getpid());
-	heapstart = sbrk(0);
 	if (ac > 1) {
 		if (!rest_f(av[1]))
 			restore();

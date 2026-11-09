@@ -564,10 +564,7 @@ ckunpaid(otmp)
 /* interactive version of getobj - used for Drop and Identify */
 /* return the number of times fn was called successfully */
 int
-ggetobj(word, fn, max)
-	const char *word;
-	int (*fn)(struct obj *);
-	int max;
+ggetobj(const char *word, int (*fn)(struct obj *), int max)	/* c4: c4lc takes no K&R function pointer */
 {
 	char            buf[BUFSZ];
 	char           *ip;
@@ -648,13 +645,8 @@ ggetobj(word, fn, max)
  * objects to be treated. Return the number of objects treated.
  */
 int
-askchain(objchn, olets, allflag, fn, ckfn, max)
-	struct obj     *objchn;
-	char           *olets;
-	int             allflag;
-	int           (*fn)(struct obj *);
-	int	      (*ckfn)(struct obj *);
-	int             max;
+askchain(struct obj *objchn, char *olets, int allflag, int (*fn)(struct obj *),
+    int (*ckfn)(struct obj *), int max)	/* c4: c4lc takes no K&R function pointer */
 {
 	struct obj     *otmp, *otmp2;
 	char            sym, ilet;

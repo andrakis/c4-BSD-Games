@@ -58,16 +58,10 @@ main(int argc, char **argv)
 {
 	char *p;
 	int a,i;
-	int fd;
 
 	gid = getgid();
 	egid = getegid();
 	setegid(gid);
-
-	fd = open("/dev/null", O_RDONLY);
-	if (fd < 3)
-		exit(1);
-	close(fd);
 
 	srandom((u_long)time(NULL));
 
