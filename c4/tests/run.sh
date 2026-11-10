@@ -33,8 +33,11 @@ marks() {
 }
 writes() { [ -f "$TESTS/writes" ] && grep -qx "$1" "$TESTS/writes"; }
 args() { if [ -f "$TESTS/$1.args" ]; then cat "$TESTS/$1.args"; fi; }
-# the name on the bare machine's and C4DOS's disks, as c4-images.sh's bsd_short
-short() { case "$1" in canfield) echo canfld ;; *) echo "$1" | cut -c1-8 ;; esac; }
+# A game's name on c4's disks: canfield is canfld, since The Ace of Penguins has
+# a Canfield too (c4ix.vfs.txt, and c4-images.sh's bsd_short); on the bare
+# machine's and C4DOS's, cut to 8 characters as well
+named() { case "$1" in canfield) echo canfld ;; *) echo "$1" ;; esac; }
+short() { named "$1" | cut -c1-8; }
 same() {  # same NAME WHERE GOT
     if ! python3 -I "$HERE/same.py" "$T/out/$1.gcc" "$3"; then
         echo "$1 on $2 differs from gcc's (full output: $3)"
@@ -91,7 +94,7 @@ done
         if [ -f "$TESTS/$g.c4ix" ]; then
             cat "$TESTS/$g.c4ix"
         else
-            echo "$g $(args "$g")"
+            echo "$(named "$g") $(args "$g")"
             cat "$TESTS/$g.in"
             echo
         fi

@@ -10,7 +10,8 @@ BSD_CURSES_GAMES="hangman rain worm gomoku snake canfield robots tetris cribbage
 BSD_WRITES_GAMES="phantasia hack"
 # A game's name on the bare machine's and C4DOS's disks: cut to 8 characters,
 # and canfield is canfld, since The Ace of Penguins (games/ace) has a Canfield
-# too and the games disk is one directory. c4/tests/run.sh says the same.
+# too and the games disk is one directory (as C4IX's /usr/games/bin is:
+# c4ix.vfs.txt names it canfld there). c4/tests/run.sh says the same.
 bsd_short() { case "$1" in canfield) echo canfld ;; *) echo "$1" | cut -c1-8 ;; esac; }
 case "$1" in
 c4ix)

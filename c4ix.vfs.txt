@@ -12,7 +12,7 @@ bsdgames/:
 	backgammon.c4r: c4ix-bsdgames-backgammon.c4r
 	gomoku.c4r: c4ix-bsdgames-gomoku.c4r
 	snake.c4r: c4ix-bsdgames-snake.c4r
-	canfield.c4r: c4ix-bsdgames-canfield.c4r
+	canfld.c4r: c4ix-bsdgames-canfield.c4r
 	robots.c4r: c4ix-bsdgames-robots.c4r
 	tetris.c4r: c4ix-bsdgames-tetris.c4r
 	cribbage.c4r: c4ix-bsdgames-cribbage.c4r
