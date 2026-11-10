@@ -1,5 +1,27 @@
 # The BSD games (games/bsdgames), and what they read, which is lazy (hostdir,
 # vfsload.c)
+#@app Games/BSD Games|Go Fish|fish
+#@app Games/BSD Games|Hunt the Wumpus|wump
+#@app Games/BSD Games|Pig|pig
+#@app Games/BSD Games|Quiz|quiz
+#@app Games/BSD Games|Adventure|adventure
+#@app Games/BSD Games|Backgammon|backgammon
+#@app Games/BSD Games|Star Trek|trek
+#@app Games/BSD Games|Monopoly|monop
+#@app Games/BSD Games|Hangman|hangman
+#@app Games/BSD Games|Rain|rain
+#@app Games/BSD Games|Worm|worm
+#@app Games/BSD Games|Gomoku|gomoku
+#@app Games/BSD Games|Snake|snake
+#@app Games/BSD Games|Canfield|canfld
+#@app Games/BSD Games|Robots|robots
+#@app Games/BSD Games|Tetris|tetris
+#@app Games/BSD Games|Cribbage|cribbage
+#@app Games/BSD Games|Mille Bornes|mille
+#@app Games/BSD Games|Boggle|boggle
+#@app Games/BSD Games|Battlestar|battlestar
+#@app Games/BSD Games|Air Traffic Control|atc
+#@app Games/BSD Games|Sail|sail
 bsdgames/:
 	fish.c4r: c4ix-bsdgames-fish.c4r
 	wump.c4r: c4ix-bsdgames-wump.c4r
