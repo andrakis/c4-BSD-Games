@@ -8,6 +8,10 @@ BSD_TEXT_GAMES="fish wump pig quiz adventure backgammon trek monop"
 BSD_CURSES_GAMES="hangman rain worm gomoku snake canfield robots tetris cribbage mille boggle battlestar atc sail"
 # and those that write files as they play: only C4IX has a disk for them (its /tmp)
 BSD_WRITES_GAMES="phantasia hack"
+# A game's name on the bare machine's and C4DOS's disks: cut to 8 characters,
+# and canfield is canfld, since The Ace of Penguins (games/ace) has a Canfield
+# too and the games disk is one directory. c4/tests/run.sh says the same.
+bsd_short() { case "$1" in canfield) echo canfld ;; *) echo "$1" | cut -c1-8 ;; esac; }
 case "$1" in
 c4ix)
     rm -rf $DISK/bsdgames
@@ -28,14 +32,14 @@ bare)
     if [ -f .bsd/c4bsd.c4o ]; then
         sh games/bsdgames/c4/tests/data.sh $GAMESDISK
         for bsd_g in $BSD_TEXT_GAMES; do
-            bsd_s=$(echo $bsd_g | cut -c1-8)
+            bsd_s=$(bsd_short $bsd_g)
             item $bsd_s
             ./c4rlink32 .bsd/$bsd_g/*.c4o .bsd/c4bsd.c4o .bsd/c4bsd-jmp.c4o .libc-bare/libc-*.c4o -o $GAMESDISK/$bsd_s.c4r > /dev/null
             GAMES_ON_DISK="$GAMES_ON_DISK $(echo $bsd_s | tr a-z A-Z)"
         done
         for bsd_g in $BSD_CURSES_GAMES; do
             if [ -f .pdcurses/plat-bare.c4o ]; then
-                bsd_s=$(echo $bsd_g | cut -c1-8)
+                bsd_s=$(bsd_short $bsd_g)
                 item $bsd_s
                 ./c4rlink32 .bsd/$bsd_g/*.c4o .bsd/c4bsd.c4o .bsd/c4bsd-jmp.c4o .bsd/c4bsd-curses.c4o .pdcurses/plat-bare.c4o --start-lib .pdcurses/lib/*.c4o .libc-bare/libc-*.c4o -o $GAMESDISK/$bsd_s.c4r > /dev/null
                 GAMES_ON_DISK="$GAMES_ON_DISK $(echo $bsd_s | tr a-z A-Z)"
